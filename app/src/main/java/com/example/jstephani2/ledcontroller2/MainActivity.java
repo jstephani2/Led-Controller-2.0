@@ -3,10 +3,14 @@ package com.example.jstephani2.ledcontroller2;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.CursorLoader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,7 +25,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+implements LoaderManager.LoaderCallbacks<Cursor>
+{
 
     private OutputStream outputStream;
     private InputStream inStream;
@@ -110,4 +116,18 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return new CursorLoader(this, SettingsProvider.CONTENT_URI, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        cursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        cursorAdapter.swapCursor(null);
+    }
 }
