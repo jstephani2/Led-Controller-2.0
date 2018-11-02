@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Led Controller 2.0</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Animations</string>
+    <string name="title_notifications">Settings</string>
+    <string name="current_animation">Current animation:</string>
+    <string name="select_an_animation">Select an Animation</string>
+</resources>
