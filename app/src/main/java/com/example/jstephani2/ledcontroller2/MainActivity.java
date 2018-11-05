@@ -3,7 +3,9 @@ package com.example.jstephani2.ledcontroller2;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.ParcelUuid;
@@ -36,6 +38,7 @@ implements LoaderManager.LoaderCallbacks<Cursor>
     private Button homeAnimationButton;
     private LedSetting currAnimation;
     private CursorAdapter cursorAdapter;
+    private Button createNewAnimationButton;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -119,10 +122,22 @@ implements LoaderManager.LoaderCallbacks<Cursor>
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        try {
-            initBluetooth(0);
-            write("#r");
-        } catch (IOException e) {}
+        createNewAnimationButton = findViewById(R.id.new_animation_btn);
+        createNewAnimationButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick (View v) {
+                switchActivity(v);
+            }
+        });
+
+//        try {
+//            initBluetooth(0);
+//            write("#r");
+//        } catch (IOException e) {}
+    }
+
+    public void switchActivity (View view) {
+        Intent intent = new Intent(this, NewAnimationActivity.class);
+        startActivity(intent);
     }
 
     @Override

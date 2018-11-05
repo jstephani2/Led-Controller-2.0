@@ -3,13 +3,15 @@ package com.example.jstephani2.ledcontroller2;
 public class LedSetting {
     private String name;
     private String code;
-    private int setting1;
+    private String[] setting_names;
+    private int[] setting_vals;
     private int dbID;
 
-    public LedSetting (String name, String code, int setting1Val, int dbID){
+    public LedSetting (String name, String code, String[] setting_names, int[] setting_vals, int dbID){
         this.name = name;
         this.code = code;
-        this.setting1 = setting1Val;
+        this.setting_names = setting_names;
+        this.setting_vals = setting_vals;
         this.dbID = dbID;
     }
 
@@ -21,12 +23,18 @@ public class LedSetting {
 
     }
 
-    public int getSetting1() {
-        return setting1;
-    }
-
-    public void setSetting1(int setting1) {
-        this.setting1 = setting1;
+    public int getSettingValByName(String name) {
+        int pos = -1;
+        for (int i = 0; i < setting_names.length; i++) {
+            if (setting_names[i].equals(name)) {
+                pos = i;
+                i = setting_names.length;
+            }
+        }
+        if (pos == -1) {
+            return -1;
+        }
+        return setting_vals[pos];
     }
 
     public String getCode() {
@@ -43,5 +51,21 @@ public class LedSetting {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String[] getSetting_names() {
+        return setting_names;
+    }
+
+    public void setSetting_names(String[] setting_names) {
+        this.setting_names = setting_names;
+    }
+
+    public int[] getSetting_vals() {
+        return setting_vals;
+    }
+
+    public void setSetting_vals(int[] setting_vals) {
+        this.setting_vals = setting_vals;
     }
 }
