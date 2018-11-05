@@ -23,6 +23,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity
@@ -66,12 +67,14 @@ implements LoaderManager.LoaderCallbacks<Cursor>
 
             if (bondedDevices.size() > 0) {
                 Object[] devices = (Object []) bondedDevices.toArray();
-                BluetoothDevice device = (BluetoothDevice) devices[position];
+                BluetoothDevice device = (BluetoothDevice) devices[devices.length-3];
+                Log.d("devices", Arrays.toString(devices));
                 ParcelUuid[] uuids = device.getUuids();
                 BluetoothSocket socket = device.createRfcommSocketToServiceRecord(uuids[0].getUuid());
                 socket.connect();
                 outputStream = socket.getOutputStream();
                 inStream = socket.getInputStream();
+                Log.d("uuid", uuids[0].toString());
             } else {
                 Log.e("error", "No appropriate paired devices.");
             }
@@ -82,6 +85,7 @@ implements LoaderManager.LoaderCallbacks<Cursor>
 
     public void write(String s) throws IOException {
         outputStream.write(s.getBytes());
+        Log.d("hi", s);
     }
 
     public void run() {
@@ -114,6 +118,11 @@ implements LoaderManager.LoaderCallbacks<Cursor>
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        try {
+            initBluetooth(0);
+            write("#r");
+        } catch (IOException e) {}
     }
 
     @Override
