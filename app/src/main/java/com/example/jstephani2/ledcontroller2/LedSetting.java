@@ -1,18 +1,26 @@
 package com.example.jstephani2.ledcontroller2;
 
-public class LedSetting {
+import java.util.UUID;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class LedSetting extends RealmObject {
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
+
     private String name;
     private String code;
     private String[] setting_names;
     private int[] setting_vals;
-    private int dbID;
 
-    public LedSetting (String name, String code, String[] setting_names, int[] setting_vals, int dbID){
+    public LedSetting (String name, String code, String[] setting_names, int[] setting_vals, String id){
         this.name = name;
         this.code = code;
         this.setting_names = setting_names;
         this.setting_vals = setting_vals;
-        this.dbID = dbID;
+        this.id = id;
+        //this.dbID = dbID;
     }
 
     public static void loadFromDatabase() {

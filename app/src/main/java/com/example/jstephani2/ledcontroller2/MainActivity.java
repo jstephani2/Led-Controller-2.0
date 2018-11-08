@@ -28,6 +28,9 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Set;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class MainActivity extends AppCompatActivity
 implements LoaderManager.LoaderCallbacks<Cursor>
 {
@@ -110,6 +113,13 @@ implements LoaderManager.LoaderCallbacks<Cursor>
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Realm.init(this);
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .name("animations.realm").
+                deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(configuration);
 
         String[] from = {DBOpenHelper.SETTING_TEXT};
         int[] to = {android.R.id.text1};
