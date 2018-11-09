@@ -3,45 +3,40 @@ package com.example.jstephani2.ledcontroller2;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CursorAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity
-implements LoaderManager.LoaderCallbacks<Cursor>
+//implements LoaderManager.LoaderCallbacks<Cursor>
 {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private OutputStream outputStream;
     private InputStream inStream;
     private TextView mTextMessage;
     private Button homeAnimationButton;
     private LedSetting currAnimation;
-    private CursorAdapter cursorAdapter;
     private Button createNewAnimationButton;
+    private SettingDataSource dataSource;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -114,18 +109,8 @@ implements LoaderManager.LoaderCallbacks<Cursor>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Realm.init(this);
-        RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .name("animations.realm").
-                deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(configuration);
-
-        String[] from = {DBOpenHelper.SETTING_TEXT};
-        int[] to = {android.R.id.text1};
-
-        cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
-                null, from, to, 0);
+        dataSource = new SettingDataSource();
+        dataSource.open();
 
         homeAnimationButton = (Button) findViewById(R.id.button);
         mTextMessage = (TextView) findViewById(R.id.message);
@@ -145,23 +130,22 @@ implements LoaderManager.LoaderCallbacks<Cursor>
 //        } catch (IOException e) {}
     }
 
+    protected void onResume() {
+        super.onResume();
+        for (LedSetting setting : SettingsProvider.settingList) {
+            dataSource.createSetting(setting);
+        }
+        List<LedSetting> allSettings = dataSource.getAllSettings();
+        Log.i(TAG, "testingthis");
+        for (LedSetting setting : allSettings) {
+            Log.i(TAG, "setting: " + setting);
+            Log.i("hi", "hi");
+        }
+    }
+
     public void switchActivity (View view) {
         Intent intent = new Intent(this, NewAnimationActivity.class);
         startActivity(intent);
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this, SettingsProvider.CONTENT_URI, null, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        cursorAdapter.swapCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        cursorAdapter.swapCursor(null);
-    }
 }

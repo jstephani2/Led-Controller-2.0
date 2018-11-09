@@ -13,18 +13,18 @@ import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 
 public class NewAnimationActivity extends AppCompatActivity
-implements LoaderManager.LoaderCallbacks<Cursor>
+//implements LoaderManager.LoaderCallbacks<Cursor>
 {
     private Button saveAnimationButton;
     private Button addSettingButton;
-    private CursorAdapter cursorAdapter;
+   // private CursorAdapter cursorAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_animation);
 
-        cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
-                null, from, to, 0);
+        //cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
+         //       null, from, to, 0);
 
         addSettingButton = findViewById(R.id.new_setting_btn);
         addSettingButton.setOnClickListener(new View.OnClickListener() {
@@ -40,19 +40,19 @@ implements LoaderManager.LoaderCallbacks<Cursor>
         });
 
     }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this, SettingsProvider.CONTENT_URI, null, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        cursorAdapter.swapCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        cursorAdapter.swapCursor(null);
-    }
+//
+//    @Override
+//    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+//        return new CursorLoader(this, SettingsProvider.CONTENT_URI, null, null, null, null);
+//    }
+//
+//    @Override
+//    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//       // cursorAdapter.swapCursor(data);
+//    }
+//
+//    @Override
+//    public void onLoaderReset(Loader<Cursor> loader) {
+//       // cursorAdapter.swapCursor(null);
+//    }
 }
