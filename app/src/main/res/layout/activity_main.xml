@@ -49,5 +49,12 @@
         android:text="New"
         tools:layout_editor_absoluteX="148dp"
         tools:layout_editor_absoluteY="120dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/animation_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        tools:listitem="@layout/animation_item"/>
 
 </android.support.constraint.ConstraintLayout>

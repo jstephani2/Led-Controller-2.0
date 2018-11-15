@@ -17,7 +17,7 @@ public class LedControllerApplication extends Application {
         RealmConfiguration configuration = new RealmConfiguration.Builder()
                 .schemaVersion(SCHEMA_VERSION)
                 .migration(new Migration())
-                .name("animations.realm")
+                .name("animation.realm")
                 .build();
         Realm.setDefaultConfiguration(configuration);
     }

@@ -11,16 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsProvider {
-    public static List<LedSetting> settingList;
+    public static List<LedAnimation> animationList;
 
     static
     {
-        settingList = new ArrayList<>();
+        animationList = new ArrayList<>();
 
 
     }
 
-    private static void addSetting(LedSetting setting) {
-        settingList.add(setting);
+    private static void addAnimation(LedAnimation animation) {
+        animationList.add(animation);
     }
 }

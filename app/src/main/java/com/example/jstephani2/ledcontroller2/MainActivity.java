@@ -9,6 +9,8 @@ import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -34,9 +37,11 @@ public class MainActivity extends AppCompatActivity
     private InputStream inStream;
     private TextView mTextMessage;
     private Button homeAnimationButton;
-    private LedSetting currAnimation;
+    private LedAnimation currAnimation;
     private Button createNewAnimationButton;
-    private SettingDataSource dataSource;
+    private AnimationDataSource dataSource;
+    private RecyclerView animationsRecyclerView;
+    private AnimationAdapter animationAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -109,13 +114,16 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dataSource = new SettingDataSource();
+        dataSource = new AnimationDataSource();
         dataSource.open();
 
         homeAnimationButton = (Button) findViewById(R.id.button);
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        animationsRecyclerView = (RecyclerView) findViewById(R.id.animation_recycler_view);
+        setupRecyclerView();
 
         createNewAnimationButton = findViewById(R.id.new_animation_btn);
         createNewAnimationButton.setOnClickListener(new View.OnClickListener() {
@@ -132,12 +140,12 @@ public class MainActivity extends AppCompatActivity
 
     protected void onResume() {
         super.onResume();
-        for (LedSetting setting : SettingsProvider.settingList) {
-            dataSource.createSetting(setting);
+        for (LedAnimation animation : SettingsProvider.animationList) {
+            dataSource.createAnimation(animation);
         }
-        List<LedSetting> allSettings = dataSource.getAllSettings();
+        List<LedAnimation> allAnimations = dataSource.getAllAnimations();
         Log.i(TAG, "testingthis");
-        for (LedSetting setting : allSettings) {
+        for (LedAnimation setting : allAnimations) {
             Log.i(TAG, "setting: " + setting);
             Log.i("hi", "hi");
         }
@@ -146,6 +154,15 @@ public class MainActivity extends AppCompatActivity
     public void switchActivity (View view) {
         Intent intent = new Intent(this, NewAnimationActivity.class);
         startActivity(intent);
+    }
+
+    private void setupRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        animationsRecyclerView.setLayoutManager(layoutManager);
+        animationsRecyclerView.setHasFixedSize(true);
+        animationAdapter = new AnimationAdapter((OrderedRealmCollection<LedAnimation>) dataSource.getAllAnimations(), true);
+        animationsRecyclerView.setAdapter(animationAdapter);
     }
 
 }

@@ -13,7 +13,7 @@ public class Migration implements RealmMigration {
         RealmSchema schema = realm.getSchema();
 
         if (oldVersion == 1) {
-            RealmObjectSchema settingSchema = schema.get("LedSetting");
+            RealmObjectSchema animationSchema = schema.get("LedAnimation");
 
         }
     }

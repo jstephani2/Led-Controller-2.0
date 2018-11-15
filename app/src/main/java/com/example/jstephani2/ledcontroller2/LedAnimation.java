@@ -6,7 +6,7 @@ import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class LedSetting extends RealmObject {
+public class LedAnimation extends RealmObject {
     @PrimaryKey
     private String id = UUID.randomUUID().toString();
 
@@ -15,21 +15,21 @@ public class LedSetting extends RealmObject {
     private String setting_names;
     private String setting_vals;
 
-    public LedSetting () {
+    public LedAnimation () {
         this.name = "";
         this.code = "";
         this.setting_names = "";
         this.setting_vals = "";
     }
 
-    public LedSetting (String name, String code, String setting_names, String setting_vals){
+    public LedAnimation (String name, String code, String setting_names, String setting_vals){
         this.name = name;
         this.code = code;
         this.setting_names = setting_names;
         this.setting_vals = setting_vals;
     }
 
-    public LedSetting (String name, String code, String setting_names, String setting_vals, String id){
+    public LedAnimation (String name, String code, String setting_names, String setting_vals, String id){
         this.name = name;
         this.code = code;
         this.setting_names = setting_names;
@@ -92,5 +92,9 @@ public class LedSetting extends RealmObject {
 
     public void setSetting_vals(String setting_vals) {
         this.setting_vals = setting_vals;
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -7,21 +7,30 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 public class NewAnimationActivity extends AppCompatActivity
 //implements LoaderManager.LoaderCallbacks<Cursor>
 {
     private Button saveAnimationButton;
     private Button addSettingButton;
+    private EditText nameField;
+    private EditText codeField;
+    private AnimationDataSource dataSource;
    // private CursorAdapter cursorAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_animation);
+
+        nameField = findViewById(R.id.name_text);
+        codeField = findViewById(R.id.code_text);
 
         //cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
          //       null, from, to, 0);
@@ -35,7 +44,9 @@ public class NewAnimationActivity extends AppCompatActivity
         saveAnimationButton = findViewById(R.id.save_btn);
         saveAnimationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
-
+                LedAnimation newAnimation = new LedAnimation(nameField.getText().toString(), codeField.getText().toString(), "", "");
+                //dataSource.createAnimation(newAnimation);
+                Toast.makeText(NewAnimationActivity.this, "Animation " + newAnimation.getName() +  " created with code" + newAnimation.getCode(), Toast.LENGTH_SHORT).show();
             }
         });
 
