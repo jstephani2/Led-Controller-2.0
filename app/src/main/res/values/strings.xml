@@ -7,4 +7,5 @@
     <string name="select_an_animation">Select an Animation</string>
     <string name="name_label">Name:</string>
     <string name="code_label">Code:</string>
+    <string name="params">Params:</string>
 </resources>

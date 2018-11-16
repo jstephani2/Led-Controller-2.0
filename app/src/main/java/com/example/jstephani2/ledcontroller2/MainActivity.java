@@ -33,10 +33,8 @@ public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private OutputStream outputStream;
+    public static OutputStream outputStream;
     private InputStream inStream;
-    private TextView mTextMessage;
-    private Button homeAnimationButton;
     private LedAnimation currAnimation;
     private Button createNewAnimationButton;
     private AnimationDataSource dataSource;
@@ -50,16 +48,13 @@ public class MainActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    homeAnimationButton.setVisibility(View.VISIBLE);
-                    mTextMessage.setText(R.string.title_home);
+                    createNewAnimationButton.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.navigation_dashboard:
-                    homeAnimationButton.setVisibility(View.INVISIBLE);
-                    mTextMessage.setText(R.string.title_dashboard);
+                    createNewAnimationButton.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.navigation_notifications:
-                    homeAnimationButton.setVisibility(View.INVISIBLE);
-                    mTextMessage.setText(R.string.title_notifications);
+                    createNewAnimationButton.setVisibility(View.VISIBLE);
                     return true;
             }
             return false;
@@ -72,6 +67,7 @@ public class MainActivity extends AppCompatActivity
             Set<BluetoothDevice> bondedDevices = blueAdapter.getBondedDevices();
 
             if (bondedDevices.size() > 0) {
+                Log.i("bluetooth", Arrays.toString(bondedDevices.toArray()));
                 Object[] devices = (Object []) bondedDevices.toArray();
                 BluetoothDevice device = (BluetoothDevice) devices[devices.length-3];
                 Log.d("devices", Arrays.toString(devices));
@@ -116,9 +112,14 @@ public class MainActivity extends AppCompatActivity
 
         dataSource = new AnimationDataSource();
         dataSource.open();
+        try {
+            initBluetooth(0);
+            Log.d("test", "test");
+        } catch (IOException e) {
+            Log.d("thisbroke",e.toString());
+        }
 
-        homeAnimationButton = (Button) findViewById(R.id.button);
-        mTextMessage = (TextView) findViewById(R.id.message);
+//        homeAnimationButton = (Button) findViewById(R.id.button);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -132,10 +133,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-//        try {
-//            initBluetooth(0);
-//            write("#r");
-//        } catch (IOException e) {}
+
     }
 
     protected void onResume() {

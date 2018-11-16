@@ -7,16 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/title_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<TextView-->
+        <!--android:id="@+id/message"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="@dimen/activity_horizontal_margin"-->
+        <!--android:layout_marginLeft="@dimen/activity_horizontal_margin"-->
+        <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
+        <!--android:text="@string/title_home"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -31,30 +31,30 @@
         app:menu="@menu/navigation" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/new_animation_btn"
         android:layout_width="355dp"
         android:layout_height="66dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/select_an_animation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message" />
-
-    <Button
-        android:id="@+id/new_animation_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="New"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="120dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!--<Button-->
+        <!--android:id="@+id/new_animation_btn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="New"-->
+        <!--tools:layout_editor_absoluteX="148dp"-->
+        <!--tools:layout_editor_absoluteY="120dp" />-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/animation_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_height="511dp"
         android:background="@color/colorPrimary"
-        tools:listitem="@layout/animation_item"/>
+        app:layout_constraintTop_toBottomOf="@id/new_animation_btn"
+        app:layout_constraintBottom_toTopOf="@id/navigation"
+        tools:listitem="@layout/animation_item" />
 
 </android.support.constraint.ConstraintLayout>

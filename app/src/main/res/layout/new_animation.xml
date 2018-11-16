@@ -42,6 +42,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="10dp">
+        <TextView
+            android:text="@string/params"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1"/>
+        <EditText
+            android:id="@+id/setting_text"
+            android:width="325dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp">
         <Button
             android:id="@+id/new_setting_btn"
             android:layout_width="wrap_content"

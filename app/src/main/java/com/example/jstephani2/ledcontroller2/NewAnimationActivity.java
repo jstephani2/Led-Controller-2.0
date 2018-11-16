@@ -22,6 +22,7 @@ public class NewAnimationActivity extends AppCompatActivity
     private Button addSettingButton;
     private EditText nameField;
     private EditText codeField;
+    private EditText paramsField;
     private AnimationDataSource dataSource;
    // private CursorAdapter cursorAdapter;
 
@@ -29,8 +30,11 @@ public class NewAnimationActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_animation);
 
+        dataSource = new AnimationDataSource();
+        dataSource.open();
         nameField = findViewById(R.id.name_text);
         codeField = findViewById(R.id.code_text);
+        paramsField = findViewById(R.id.setting_text);
 
         //cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
          //       null, from, to, 0);
@@ -44,9 +48,9 @@ public class NewAnimationActivity extends AppCompatActivity
         saveAnimationButton = findViewById(R.id.save_btn);
         saveAnimationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
-                LedAnimation newAnimation = new LedAnimation(nameField.getText().toString(), codeField.getText().toString(), "", "");
-                //dataSource.createAnimation(newAnimation);
-                Toast.makeText(NewAnimationActivity.this, "Animation " + newAnimation.getName() +  " created with code" + newAnimation.getCode(), Toast.LENGTH_SHORT).show();
+                LedAnimation newAnimation = new LedAnimation(nameField.getText().toString(), codeField.getText().toString(), "1", paramsField.getText().toString());
+                dataSource.createAnimation(newAnimation);
+                Toast.makeText(NewAnimationActivity.this, "Animation " + newAnimation.getName() +  " created with code " + newAnimation.getCode() + "," + newAnimation.getSetting_vals(), Toast.LENGTH_SHORT).show();
             }
         });
 
