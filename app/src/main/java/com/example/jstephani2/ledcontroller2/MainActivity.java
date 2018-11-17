@@ -112,12 +112,6 @@ public class MainActivity extends AppCompatActivity
 
         dataSource = new AnimationDataSource();
         dataSource.open();
-        try {
-            initBluetooth(0);
-            Log.d("test", "test");
-        } catch (IOException e) {
-            Log.d("thisbroke",e.toString());
-        }
 
 //        homeAnimationButton = (Button) findViewById(R.id.button);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -132,7 +126,11 @@ public class MainActivity extends AppCompatActivity
                 switchActivity(v);
             }
         });
-
+//        try {
+//            initBluetooth(0);
+//        } catch (IOException e) {
+//            Log.d("thisbroke",e.toString());
+//        }
 
     }
 
@@ -159,7 +157,7 @@ public class MainActivity extends AppCompatActivity
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         animationsRecyclerView.setLayoutManager(layoutManager);
         animationsRecyclerView.setHasFixedSize(true);
-        animationAdapter = new AnimationAdapter((OrderedRealmCollection<LedAnimation>) dataSource.getAllAnimations(), true);
+        animationAdapter = new AnimationAdapter(this, (OrderedRealmCollection<LedAnimation>) dataSource.getAllAnimations(), true);
         animationsRecyclerView.setAdapter(animationAdapter);
     }
 

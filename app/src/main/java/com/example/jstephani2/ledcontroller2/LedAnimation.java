@@ -1,12 +1,16 @@
 package com.example.jstephani2.ledcontroller2;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class LedAnimation extends RealmObject {
+public class LedAnimation extends RealmObject implements Parcelable {
     @PrimaryKey
     private String id = UUID.randomUUID().toString();
 
@@ -29,7 +33,7 @@ public class LedAnimation extends RealmObject {
         this.setting_vals = setting_vals;
     }
 
-    public LedAnimation (String name, String code, String setting_names, String setting_vals, String id){
+    public LedAnimation ( String id, String name, String code, String setting_names, String setting_vals){
         this.name = name;
         this.code = code;
         this.setting_names = setting_names;
@@ -38,13 +42,25 @@ public class LedAnimation extends RealmObject {
         //this.dbID = dbID;
     }
 
-    public void loadFromDatabase() {
-
+    protected LedAnimation(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        code = in.readString();
+        setting_names = in.readString();
+        setting_vals = in.readString();
     }
 
-    public void saveToDatabase() {
+    public static final Creator<LedAnimation> CREATOR = new Creator<LedAnimation>() {
+        @Override
+        public LedAnimation createFromParcel(Parcel in) {
+            return new LedAnimation(in.readString(), in.readString(), in.readString(), in.readString(), in.readString() );
+        }
 
-    }
+        @Override
+        public LedAnimation[] newArray(int size) {
+            return new LedAnimation[size];
+        }
+    };
 
     public int getSettingValByName(String name) {
         int pos = -1;
@@ -96,5 +112,19 @@ public class LedAnimation extends RealmObject {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(code);
+        dest.writeString(setting_names);
+        dest.writeString(setting_vals);
     }
 }

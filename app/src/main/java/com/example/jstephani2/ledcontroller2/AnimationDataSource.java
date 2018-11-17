@@ -23,10 +23,22 @@ public class AnimationDataSource {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.insert(animation);
+                realm.insertOrUpdate(animation);
             }
         });
     }
+
+//    public void updateAnimation (final LedAnimation animation) {
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                LedAnimation an = realm.where(LedAnimation.class)
+//                                        .equalTo("id", animation.getId()).findFirst();
+//                an = animation;
+//                realm.
+//            }
+//        });
+//    }
 
     List<LedAnimation> getAllAnimations() {
         return realm.where(LedAnimation.class).findAll();

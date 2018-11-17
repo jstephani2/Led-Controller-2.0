@@ -3,6 +3,7 @@ package com.example.jstephani2.ledcontroller2;
 import android.app.AppComponentFactory;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class NewAnimationActivity extends AppCompatActivity
     private EditText codeField;
     private EditText paramsField;
     private AnimationDataSource dataSource;
+    private LedAnimation animation;
    // private CursorAdapter cursorAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,15 @@ public class NewAnimationActivity extends AppCompatActivity
         nameField = findViewById(R.id.name_text);
         codeField = findViewById(R.id.code_text);
         paramsField = findViewById(R.id.setting_text);
+
+
+        Intent intent = getIntent();
+        if (intent.getParcelableExtra("animation") != null) {
+            animation = intent.getParcelableExtra("animation");
+            nameField.setText(animation.getName());
+            codeField.setText(animation.getCode());
+            paramsField.setText(animation.getSetting_vals());
+        }
 
         //cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1,
          //       null, from, to, 0);
@@ -48,9 +59,18 @@ public class NewAnimationActivity extends AppCompatActivity
         saveAnimationButton = findViewById(R.id.save_btn);
         saveAnimationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
-                LedAnimation newAnimation = new LedAnimation(nameField.getText().toString(), codeField.getText().toString(), "1", paramsField.getText().toString());
-                dataSource.createAnimation(newAnimation);
-                Toast.makeText(NewAnimationActivity.this, "Animation " + newAnimation.getName() +  " created with code " + newAnimation.getCode() + "," + newAnimation.getSetting_vals(), Toast.LENGTH_SHORT).show();
+                if (animation == null) {
+                    animation = new LedAnimation(nameField.getText().toString(), codeField.getText().toString(), "1", paramsField.getText().toString());
+                } else {
+                    animation.setName(nameField.getText().toString());
+                    animation.setCode(codeField.getText().toString());
+                    animation.setSetting_vals(paramsField.getText().toString());
+                }
+                dataSource.createAnimation(animation);
+
+                Toast.makeText(NewAnimationActivity.this, "Animation " + animation.getName() +  " created with code " + animation.getCode() + "," + animation.getSetting_vals(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(NewAnimationActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
